@@ -26,15 +26,15 @@
             //     }
             //     return data;
             // }
-            function get_binder_contents() {
+
+            function getBinderContents() {
                 $.ajax({
                     url: "https://apisandbox.moxtra.com/v1/BTEahwWvVdcHDI9NaaqOX8J/conversations",
                     success: function(data, textStatus, jqXHR) {
                     alert(data.actor.displayName);
-                    },
+                    }
                 });
             }
-
 
 
             function get_access_token() { 
@@ -61,7 +61,7 @@
                     },
                     async: false,
                     success: function(data, textStatus, jqXHR) {
-                        access_token = data.access_token;
+                        access_token = data.Access_token;
                         alert(access_token);
                         },
                     error: function (jqXHR, textStatus, errorThrown) {
@@ -126,6 +126,9 @@
                 error: function(event) {
                     console.log("Chat error code: " + event.error_code + " error message: " + event.error_message);
                 }
+                receive_Feed: function(session_id, binder_id, message, title, feed_unread_count){
+                    alert(message);
+                }
             };            
             Moxtra.chat(chat_options);
         }
@@ -134,7 +137,7 @@
     </head>
     <body onload="get_access_token()">
         <h3><a id="getToken" href="javascript:start_chat();">Moxtra Chat</a></h3>
-        <h3><a href="javascript:get_binder_contents();">Get Name</a></h3>
+        <h3><a href="javascript:getBinderContents();">Get Binder Contents</a></h3>
         <div id="chat-container"></div>
 
     </body>
