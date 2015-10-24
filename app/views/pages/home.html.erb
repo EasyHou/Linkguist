@@ -26,7 +26,6 @@
             //     }
             //     return data;
             // }
-
             function getBinderContents() {
                 $.ajax({
                     url: "https://apisandbox.moxtra.com/v1/BTEahwWvVdcHDI9NaaqOX8J/conversations",
@@ -61,7 +60,7 @@
                     },
                     async: false,
                     success: function(data, textStatus, jqXHR) {
-                        access_token = data.Access_token;
+                        access_token = data.access_token;
                         alert(access_token);
                         },
                     error: function (jqXHR, textStatus, errorThrown) {
@@ -123,12 +122,13 @@
                 request_note: function(event) {
                     console.log("Note start request");
                 },
+                                receive_feed: function(session_id, binder_id, message, title, feed_unread_count){
+                    alert(message);
+                },
                 error: function(event) {
                     console.log("Chat error code: " + event.error_code + " error message: " + event.error_message);
                 }
-                receive_Feed: function(session_id, binder_id, message, title, feed_unread_count){
-                    alert(message);
-                }
+
             };            
             Moxtra.chat(chat_options);
         }
