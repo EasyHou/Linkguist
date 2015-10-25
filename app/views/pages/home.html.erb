@@ -83,6 +83,7 @@
         <!-- Start Chat Function -->
         <script type="text/javascript">
         function start_chat () {
+        var is_translated_message = false;
         console.log("We've Started")            
             var chat_options = {
                 //unique id of the users who will be part of the chat. These users should already exist in Moxtra.
@@ -115,16 +116,20 @@
                 },
                 publish_feed: function(event){
                     console.log(event.message);
+
+                    if (!is_translated_message){
+                    event.message = event.message.slice(event.message.indexOf(" "))
+                    translated_message = event.message//TRANSLATE HERE
                     posturl = "https://apisandbox.moxtra.com/" + event.binder_id + "/comments?access_token="+access_token;
                     console.log(posturl)
                     $.ajax({
                     method: "POST",
                     url: posturl,
-                    async: false,
-                    dataType : "json",
-                    // data: {
-                    // "text": "Same"
-                    // },
+                    dataType: "json",
+                    contentType: "application/json", 
+                    data: JSON.stringify({
+                    "text": translated_message
+                    }),
                     success: function(data, textStatus, jqXHR) {
                         console.log(textStatus);
                         },
@@ -132,6 +137,11 @@
                         console.log(textStatus);
                         }
                         });
+
+                } else {
+                    console.log("Duplicate Message " + event.message)
+                }
+                is_translated_message = !is_translated_message
                 },
                 ajax: function(event) {
                     console.log("Chat error code: " + event.error_code + " error message: " + event.error_message);
