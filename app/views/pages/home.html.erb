@@ -26,19 +26,9 @@
             //     }
             //     return data;
             // }
-            
-            function getBinderContents(binder_id) {
-                $.ajax({
-                    url: "https://apisandbox.moxtra.com/v1/"+binder_id+"/conversations",
-                    success: function(data, textStatus, jqXHR) {
-                    alert(data.actor.displayName);
-                    }
-                });
-            }
-
-
+            var access_token;
             function get_access_token() { 
-                var access_token;
+                
                 var client_id = "lZzzYnnz8No";
                 var client_secret = "tC87sYCKZ1o";
                 var uniqueid = "user3";
@@ -125,13 +115,16 @@
                 },
                 publish_feed: function(event){
                     console.log(event.message);
+                    posturl = "https://apisandbox.moxtra.com/" + event.binder_id + "/comments?access_token="+access_token;
+                    console.log(posturl)
                     $.ajax({
                     method: "POST",
-                    url: "https://apisandbox.moxtra.com/" + event.binder_id + "/comments",
-                    data: {
-                    text: "Same",
-                    },
+                    url: posturl,
                     async: false,
+                    dataType : "json",
+                    // data: {
+                    // "text": "Same"
+                    // },
                     success: function(data, textStatus, jqXHR) {
                         console.log(textStatus);
                         },
@@ -152,7 +145,6 @@
     </head>
     <body onload="get_access_token()">
         <h3><a id="getToken" href="javascript:start_chat();">Moxtra Chat</a></h3>
-        <h3><a href="javascript:getBinderContents();">Get Binder Contents</a></h3>
         <div id="chat-container"></div>
 
     </body>
